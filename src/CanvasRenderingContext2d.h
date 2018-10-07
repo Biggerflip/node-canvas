@@ -112,6 +112,8 @@ class Context2d: public Nan::ObjectWrap {
     static NAN_METHOD(CreatePattern);
     static NAN_METHOD(CreateLinearGradient);
     static NAN_METHOD(CreateRadialGradient);
+    static NAN_METHOD(TagLinkBegin);
+    static NAN_METHOD(TagLinkEnd);
     static NAN_GETTER(GetFormat);
     static NAN_GETTER(GetPatternQuality);
     static NAN_GETTER(GetImageSmoothingEnabled);

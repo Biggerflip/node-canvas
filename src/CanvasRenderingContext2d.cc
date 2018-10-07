@@ -151,6 +151,8 @@ Context2d::Initialize(Nan::ADDON_REGISTER_FUNCTION_ARGS_TYPE target) {
   Nan::SetPrototypeMethod(ctor, "createPattern", CreatePattern);
   Nan::SetPrototypeMethod(ctor, "createLinearGradient", CreateLinearGradient);
   Nan::SetPrototypeMethod(ctor, "createRadialGradient", CreateRadialGradient);
+  Nan::SetPrototypeMethod(ctor, "tagLinkBegin", TagLinkBegin);
+  Nan::SetPrototypeMethod(ctor, "tagLinkEnd", TagLinkEnd);
   SetProtoAccessor(proto, Nan::New("pixelFormat").ToLocalChecked(), GetFormat, NULL, ctor);
   SetProtoAccessor(proto, Nan::New("patternQuality").ToLocalChecked(), GetPatternQuality, SetPatternQuality, ctor);
   SetProtoAccessor(proto, Nan::New("imageSmoothingEnabled").ToLocalChecked(), GetImageSmoothingEnabled, SetImageSmoothingEnabled, ctor);
@@ -3043,4 +3045,26 @@ NAN_METHOD(Context2d::Ellipse) {
       endAngle);
   }
   cairo_set_matrix(ctx, &save_matrix);
+}
+
+/*
+ * Start a hyperlink tag, only works for PDF -- link should be in the
+ * format "uri='http://cairographics.org'"
+ */
+
+NAN_METHOD(Context2d::TagLinkBegin) {
+  Nan::Utf8String link(info[0]->ToString());
+  Context2d *context = Nan::ObjectWrap::Unwrap<Context2d>(info.This());
+  cairo_t *ctx = context->context();
+  cairo_tag_begin (ctx, CAIRO_TAG_LINK, *link);
+}
+
+/*
+ * Start a hyperlink tag, only works for PDF
+ */
+
+NAN_METHOD(Context2d::TagLinkEnd) {
+  Context2d *context = Nan::ObjectWrap::Unwrap<Context2d>(info.This());
+  cairo_t *ctx = context->context();
+  cairo_tag_end (ctx, CAIRO_TAG_LINK);
 }
