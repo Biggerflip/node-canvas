@@ -3060,7 +3060,7 @@ NAN_METHOD(Context2d::Ellipse) {
  */
 
 NAN_METHOD(Context2d::TagLinkBegin) {
-  Nan::Utf8String link(info[0]->ToString());
+  Nan::Utf8String link(Nan::To<String>(info[0]).ToLocalChecked());
   Context2d *context = Nan::ObjectWrap::Unwrap<Context2d>(info.This());
   cairo_t *ctx = context->context();
   cairo_tag_begin (ctx, CAIRO_TAG_LINK, *link);
