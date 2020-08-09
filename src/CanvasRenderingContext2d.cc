@@ -3067,7 +3067,7 @@ NAN_METHOD(Context2d::TagLinkBegin) {
 }
 
 /*
- * Start a hyperlink tag, only works for PDF
+ * End a hyperlink tag, only works for PDF
  */
 
 NAN_METHOD(Context2d::TagLinkEnd) {
